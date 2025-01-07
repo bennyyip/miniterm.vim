@@ -10,9 +10,9 @@ def Terminal(cmd = ''): dict<any>
         bufnr: 0,
     }
 
-    self.bufnr = term_start($SHELL, { 
-        hidden: 1, 
-        term_kill: 'hup' 
+    self.bufnr = term_start($SHELL, {
+        hidden: 1,
+        term_kill: 'hup'
     })
     setbufvar(self.bufnr, "&buflisted", 0)
     if cmd != ''
@@ -166,6 +166,9 @@ def TerminalManager(): dict<any>
     # i.e. 0 1 [2] 3
     # if terminal at index 2 is the current
     self.ListTerminals = () => {
+        if g:miniterm_dont_list
+          return
+        endif
         if len(self.terminals) == 0
             echo "No terminals active"
         else
