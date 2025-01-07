@@ -111,6 +111,11 @@ def TerminalManager(): dict<any>
         if self.IsTermOpen(self.current)
             self.CloseTerminal(self.current)
         else
+            if getbufvar(self.current.bufnr, '&buftype') != 'terminal'
+                # buffer is wiped out
+                self.RemoveBufnr(self.current.bufnr)
+                self.current = self.AddTerm(cmd)
+            endif
             self.OpenTerminal(self.current)
         endif
     }
