@@ -14,7 +14,7 @@ def TerminalMap(map: string, com: string)
     execute $"tnoremap <silent> {map} <C-\\><C-n>{com}"
 enddef
 
-command! MinitermToggle       miniterm.GetManager().ToggleTerminal()
+command! -bang MinitermToggle miniterm.GetManager().ToggleTerminal("", "<bang>" == '!')
 command! -nargs=* MinitermNew miniterm.GetManager().NewTerminal(<q-args>)
 command! MinitermNext         miniterm.GetManager().OffsetTerminal(1)
 command! MinitermPrev         miniterm.GetManager().OffsetTerminal(-1)

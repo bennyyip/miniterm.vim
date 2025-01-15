@@ -34,11 +34,15 @@ def TerminalManager(): dict<any>
         return !self.current->empty()
     }
 
-    self.OpenTerminal = (term: dict<any>) => {
+    self.OpenTerminal = (term: dict<any>, vertical: bool = false) => {
         self.ListTerminals()
-        exec $"silent! bot sbuffer {term.bufnr}"
-        exec $"silent! resize {float2nr(&lines * g:miniterm_proportion)}"
-        silent! setlocal winfixheight
+        if vertical
+            exec $"silent! vertical sbuffer {term.bufnr}"
+        else
+            exec $"silent! bot sbuffer {term.bufnr}"
+            exec $"silent! resize {float2nr(&lines * g:miniterm_proportion)}"
+            silent! setlocal winfixheight
+        endif
         silent! setlocal nonumber norelativenumber
         silent! setlocal hidden
     }
@@ -104,7 +108,7 @@ def TerminalManager(): dict<any>
 #       - close terminal window
 #   - else if terminal window isnt open:
 #       - open terminal window
-    self.ToggleTerminal = (cmd = '') => {
+    self.ToggleTerminal = (cmd = '', vertical = v:false) => {
         if !self.HasCurrent()
             self.current = self.AddTerm(cmd)
         endif
@@ -116,7 +120,7 @@ def TerminalManager(): dict<any>
                 self.RemoveBufnr(self.current.bufnr)
                 self.current = self.AddTerm(cmd)
             endif
-            self.OpenTerminal(self.current)
+            self.OpenTerminal(self.current, vertical)
         endif
     }
 
