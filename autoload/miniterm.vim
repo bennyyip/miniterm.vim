@@ -12,7 +12,9 @@ def Terminal(cmd = ''): dict<any>
 
     self.bufnr = term_start($SHELL, {
         hidden: 1,
-        term_kill: 'hup'
+        term_kill: 'hup',
+        # TODO: add option to open in cwd
+        cwd: expand('%:p:h')
     })
     setbufvar(self.bufnr, "&buflisted", 0)
     if cmd != ''
