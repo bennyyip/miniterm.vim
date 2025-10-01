@@ -10,7 +10,9 @@ def Terminal(cmd = ''): dict<any>
         bufnr: 0,
     }
 
-    self.bufnr = term_start($SHELL, {
+    var shcmd = get(g:, 'miniterm_shell', $SHELL)
+
+    self.bufnr = term_start(shcmd, {
         hidden: 1,
         term_kill: 'hup',
         # TODO: add option to open in cwd
