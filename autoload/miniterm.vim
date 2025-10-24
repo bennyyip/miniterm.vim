@@ -11,13 +11,14 @@ def Terminal(cmd = ''): dict<any>
     }
 
     var shcmd = get(g:, 'miniterm_shell', $SHELL)
-
-    self.bufnr = term_start(shcmd, {
+    var opts = {
         hidden: 1,
         term_kill: 'hup',
         # TODO: add option to open in cwd
         cwd: expand('%:p:h')
-    })
+    }
+    opts->extend(get(g:, 'miniterm_opts', {}))
+    self.bufnr = term_start(shcmd, opts)
     setbufvar(self.bufnr, "&buflisted", 0)
     if cmd != ''
         term_sendkeys(self.bufnr, $"{cmd}\<CR>")
